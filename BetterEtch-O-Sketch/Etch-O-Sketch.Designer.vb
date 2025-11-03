@@ -48,6 +48,9 @@ Partial Class Form1
         Me.DrawingPictureBox = New System.Windows.Forms.PictureBox()
         Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.PICSerialPort = New System.IO.Ports.SerialPort(Me.components)
+        Me.DrawingRadioButton = New System.Windows.Forms.RadioButton()
+        Me.PICRadioButton = New System.Windows.Forms.RadioButton()
+        Me.SendTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MenuStrip1.SuspendLayout()
         Me.ContextMenuStrip.SuspendLayout()
         CType(Me.DrawingPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -114,7 +117,7 @@ Partial Class Form1
         'ExitMenuStripItem
         '
         Me.ExitMenuStripItem.Name = "ExitMenuStripItem"
-        Me.ExitMenuStripItem.Size = New System.Drawing.Size(180, 22)
+        Me.ExitMenuStripItem.Size = New System.Drawing.Size(92, 22)
         Me.ExitMenuStripItem.Text = "Exit"
         '
         'EditMenuStripItem
@@ -127,19 +130,19 @@ Partial Class Form1
         'SelectColorMenuStripItem
         '
         Me.SelectColorMenuStripItem.Name = "SelectColorMenuStripItem"
-        Me.SelectColorMenuStripItem.Size = New System.Drawing.Size(180, 22)
+        Me.SelectColorMenuStripItem.Size = New System.Drawing.Size(164, 22)
         Me.SelectColorMenuStripItem.Text = "Select Color"
         '
         'DrawWaveformsMenuStripItem
         '
         Me.DrawWaveformsMenuStripItem.Name = "DrawWaveformsMenuStripItem"
-        Me.DrawWaveformsMenuStripItem.Size = New System.Drawing.Size(180, 22)
+        Me.DrawWaveformsMenuStripItem.Size = New System.Drawing.Size(164, 22)
         Me.DrawWaveformsMenuStripItem.Text = "Draw Waveforms"
         '
         'ClearMenuStripItem
         '
         Me.ClearMenuStripItem.Name = "ClearMenuStripItem"
-        Me.ClearMenuStripItem.Size = New System.Drawing.Size(180, 22)
+        Me.ClearMenuStripItem.Size = New System.Drawing.Size(164, 22)
         Me.ClearMenuStripItem.Text = "Clear"
         '
         'HelpMenuStripItem
@@ -171,7 +174,7 @@ Partial Class Form1
         'ExitContextMenuItem
         '
         Me.ExitContextMenuItem.Name = "ExitContextMenuItem"
-        Me.ExitContextMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ExitContextMenuItem.Size = New System.Drawing.Size(92, 22)
         Me.ExitContextMenuItem.Text = "Exit"
         '
         'EditContextMenuItem
@@ -184,19 +187,19 @@ Partial Class Form1
         'SelectContextMenuItem
         '
         Me.SelectContextMenuItem.Name = "SelectContextMenuItem"
-        Me.SelectContextMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SelectContextMenuItem.Size = New System.Drawing.Size(164, 22)
         Me.SelectContextMenuItem.Text = "Select Color"
         '
         'DrawContextMenuItem
         '
         Me.DrawContextMenuItem.Name = "DrawContextMenuItem"
-        Me.DrawContextMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.DrawContextMenuItem.Size = New System.Drawing.Size(164, 22)
         Me.DrawContextMenuItem.Text = "Draw Waveforms"
         '
         'ClearContextMenuItem
         '
         Me.ClearContextMenuItem.Name = "ClearContextMenuItem"
-        Me.ClearContextMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ClearContextMenuItem.Size = New System.Drawing.Size(164, 22)
         Me.ClearContextMenuItem.Text = "Clear"
         '
         'HelpContextMenuItem
@@ -209,7 +212,7 @@ Partial Class Form1
         'AboutContextMenuItem
         '
         Me.AboutContextMenuItem.Name = "AboutContextMenuItem"
-        Me.AboutContextMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.AboutContextMenuItem.Size = New System.Drawing.Size(107, 22)
         Me.AboutContextMenuItem.Text = "About"
         '
         'DrawingPictureBox
@@ -223,6 +226,28 @@ Partial Class Form1
         Me.DrawingPictureBox.TabStop = False
         Me.ToolTip.SetToolTip(Me.DrawingPictureBox, "Draw within this space")
         '
+        'DrawingRadioButton
+        '
+        Me.DrawingRadioButton.AutoSize = True
+        Me.DrawingRadioButton.Location = New System.Drawing.Point(12, 421)
+        Me.DrawingRadioButton.Name = "DrawingRadioButton"
+        Me.DrawingRadioButton.Size = New System.Drawing.Size(107, 17)
+        Me.DrawingRadioButton.TabIndex = 6
+        Me.DrawingRadioButton.TabStop = True
+        Me.DrawingRadioButton.Text = "Draw with Mouse"
+        Me.DrawingRadioButton.UseVisualStyleBackColor = True
+        '
+        'PICRadioButton
+        '
+        Me.PICRadioButton.AutoSize = True
+        Me.PICRadioButton.Location = New System.Drawing.Point(125, 421)
+        Me.PICRadioButton.Name = "PICRadioButton"
+        Me.PICRadioButton.Size = New System.Drawing.Size(110, 17)
+        Me.PICRadioButton.TabIndex = 7
+        Me.PICRadioButton.TabStop = True
+        Me.PICRadioButton.Text = "PIC Potentiometer"
+        Me.PICRadioButton.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AcceptButton = Me.DrawWaveformsButton
@@ -230,6 +255,8 @@ Partial Class Form1
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.ClearButton
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.PICRadioButton)
+        Me.Controls.Add(Me.DrawingRadioButton)
         Me.Controls.Add(Me.DrawingPictureBox)
         Me.Controls.Add(Me.ExitButton)
         Me.Controls.Add(Me.ClearButton)
@@ -273,4 +300,7 @@ Partial Class Form1
     Friend WithEvents ToolTip As ToolTip
     Friend WithEvents DrawingPictureBox As PictureBox
     Friend WithEvents PICSerialPort As IO.Ports.SerialPort
+    Friend WithEvents DrawingRadioButton As RadioButton
+    Friend WithEvents PICRadioButton As RadioButton
+    Friend WithEvents SendTimer As Timer
 End Class

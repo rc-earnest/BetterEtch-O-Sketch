@@ -7,6 +7,7 @@ Option Strict On
 Option Explicit On
 Option Compare Text
 
+Imports System.IO.Ports
 Imports System.Media
 Imports System.Threading.Thread
 Public Class Form1
@@ -14,7 +15,8 @@ Public Class Form1
     Private _foreColor As Color = Color.Black
     Private _penWidth As Integer = 1
     Private _isDrawing As Boolean = False
-
+    Private _isPICMode As Boolean = True
+    Private _isQYat As Boolean = False
     Public Property ForegroundColor As Color
         Get
             Return _foreColor
@@ -169,7 +171,7 @@ Public Class Form1
 
     'Event Handlers=====================================================================================================================
     Private Sub DrawingPictureBox_MouseDown(sender As Object, e As MouseEventArgs) Handles DrawingPictureBox.MouseDown
-        If e.Button = MouseButtons.Left Then
+        If e.Button = MouseButtons.Left And _isPICMode = False Then
             _isDrawing = True
         ElseIf e.Button = MouseButtons.Middle Then
             ChangeForegroundColor()
@@ -266,5 +268,134 @@ Public Class Form1
 
     Private Sub AboutContextMenuItem_Click(sender As Object, e As EventArgs) Handles AboutContextMenuItem.Click
         AboutForm.ShowDialog()
+    End Sub
+
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
+        SelectColorButton.ForeColor = Color.White
+        SelectColorButton.BackColor = Color.Black
+        DrawingRadioButton.Checked = True
+        PICRadioButton.Checked = False
+        _isPICMode = False
+    End Sub
+
+    Private Sub PICRadioButton_CheckedChanged(sender As Object, e As EventArgs) Handles PICRadioButton.CheckedChanged
+        _isPICMode = True
+        Dim temp As String()
+        Dim result As DialogResult = MessageBox.Show("PIC Mode Activated. Press Yes for 9600 Baud no for 19200 Baud.", "PIC Mode", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information)
+        If result = DialogResult.Yes Then
+            Try
+                temp = SerialPort.GetPortNames()
+                If temp.Length >= 1 Then
+                    PICSerialPort.PortName = temp(0)
+                Else
+                    For Each portName In temp
+                        Form2.CommComboBox.Items.Add(portName)
+                        Form2.CommComboBox.SelectedIndex = 0
+                    Next
+                    Form2.ShowDialog()
+                End If
+                PICSerialPort.BaudRate = 9600
+                PICSerialPort.DataBits = 8
+                PICSerialPort.Parity = Parity.None
+                PICSerialPort.StopBits = StopBits.One
+                _isQYat = False
+
+                PICSerialPort.Open()
+            Catch ex As Exception
+                MessageBox.Show(ex.Message, "Error Opening Serial Port", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                DrawingRadioButton.Checked = True
+            End Try
+        ElseIf result = DialogResult.No Then
+            Try
+                temp = SerialPort.GetPortNames()
+                If temp.Length >= 1 Then
+                    PICSerialPort.PortName = temp(0)
+                Else
+                    For Each portName In temp
+                        Form2.CommComboBox.Items.Add(portName)
+                        Form2.CommComboBox.SelectedIndex = 0
+                    Next
+                    Form2.ShowDialog()
+                End If
+
+                PICSerialPort.BaudRate = 19200
+                PICSerialPort.DataBits = 8
+                PICSerialPort.Parity = Parity.None
+                PICSerialPort.StopBits = StopBits.One
+                _isQYat = True
+
+                PICSerialPort.Open()
+            Catch ex As Exception
+                MessageBox.Show(ex.Message, "Error Opening Serial Port", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                DrawingRadioButton.Checked = True
+            End Try
+        Else
+            DrawingRadioButton.Checked = True
+        End If
+        SendTimer.Enabled = True
+    End Sub
+
+    Private Sub DrawingRadioButton_CheckedChanged(sender As Object, e As EventArgs) Handles DrawingRadioButton.CheckedChanged
+        SendTimer.Enabled = False
+        _isPICMode = False
+    End Sub
+
+
+
+    Private Sub SendTimer_Tick(sender As Object, e As EventArgs) Handles SendTimer.Tick
+        Static oldX As Integer
+        Static oldy As Integer
+        If _isQYat = False Then
+            Dim dollar(0) As Byte
+            Dim read As Integer
+            Dim xPos As Integer
+            Dim yPos As Integer
+            dollar(0) = &H24
+            PICSerialPort.Write(dollar, 0, 1)
+            Sleep(20)
+            read = PICSerialPort.ReadByte()
+            If read = &H24 Then
+                dollar(0) = &H3C
+                PICSerialPort.Write(dollar, 0, 1)
+                Sleep(20)
+                xPos = PICSerialPort.ReadByte()
+                PICSerialPort.DiscardInBuffer()
+                dollar(0) = &H3E
+                PICSerialPort.Write(dollar, 0, 1)
+                Sleep(20)
+                yPos = PICSerialPort.ReadByte()
+                Dim g As Graphics = DrawingPictureBox.CreateGraphics()
+                Dim pen As New Pen(ForegroundColor, PenWidth)
+                g.DrawLine(pen, oldX, oldy, xPos, yPos)
+                oldX = xPos
+                oldy = yPos
+                g.Dispose()
+                pen.Dispose()
+                PICSerialPort.DiscardInBuffer()
+            End If
+        ElseIf _isQYat = True Then
+            Dim send(0) As Byte
+            Dim xPos As Integer
+            Dim yPos As Integer
+            PICSerialPort.DiscardInBuffer()
+            send(0) = &H51
+            PICSerialPort.Write(send, 0, 1)
+            xPos = PICSerialPort.ReadByte()
+            PICSerialPort.DiscardInBuffer()
+            send(0) = &H52
+            PICSerialPort.Write(send, 0, 1)
+            yPos = PICSerialPort.ReadByte()
+
+            xPos = CInt((xPos * DrawingPictureBox.Width) / 255)
+            yPos = CInt((yPos * DrawingPictureBox.Height) / 255)
+            Dim g As Graphics = DrawingPictureBox.CreateGraphics()
+            Dim pen As New Pen(ForegroundColor, PenWidth)
+            g.DrawLine(pen, oldX, oldy, xPos, yPos)
+            oldX = xPos
+            oldy = yPos
+            g.Dispose()
+            pen.Dispose()
+            PICSerialPort.DiscardInBuffer()
+        End If
     End Sub
 End Class
