@@ -46,7 +46,8 @@ Partial Class Form1
         Me.HelpContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DrawingPictureBox = New System.Windows.Forms.PictureBox()
-        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
+        Me.PICSerialPort = New System.IO.Ports.SerialPort(Me.components)
         Me.MenuStrip1.SuspendLayout()
         Me.ContextMenuStrip.SuspendLayout()
         CType(Me.DrawingPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -59,7 +60,7 @@ Partial Class Form1
         Me.SelectColorButton.Size = New System.Drawing.Size(75, 23)
         Me.SelectColorButton.TabIndex = 0
         Me.SelectColorButton.Text = "Select Color"
-        Me.ToolTip1.SetToolTip(Me.SelectColorButton, "Select Color to Draw with")
+        Me.ToolTip.SetToolTip(Me.SelectColorButton, "Select Color to Draw with")
         Me.SelectColorButton.UseVisualStyleBackColor = True
         '
         'DrawWaveformsButton
@@ -69,7 +70,7 @@ Partial Class Form1
         Me.DrawWaveformsButton.Size = New System.Drawing.Size(107, 23)
         Me.DrawWaveformsButton.TabIndex = 1
         Me.DrawWaveformsButton.Text = "Draw Waveforms"
-        Me.ToolTip1.SetToolTip(Me.DrawWaveformsButton, "Draw Cosine Sine and Tan with Graticules")
+        Me.ToolTip.SetToolTip(Me.DrawWaveformsButton, "Draw Cosine Sine and Tan with Graticules")
         Me.DrawWaveformsButton.UseVisualStyleBackColor = True
         '
         'ClearButton
@@ -80,7 +81,7 @@ Partial Class Form1
         Me.ClearButton.Size = New System.Drawing.Size(75, 23)
         Me.ClearButton.TabIndex = 2
         Me.ClearButton.Text = "Clear"
-        Me.ToolTip1.SetToolTip(Me.ClearButton, "Clears display")
+        Me.ToolTip.SetToolTip(Me.ClearButton, "Clears display")
         Me.ClearButton.UseVisualStyleBackColor = True
         '
         'ExitButton
@@ -91,7 +92,7 @@ Partial Class Form1
         Me.ExitButton.Size = New System.Drawing.Size(75, 23)
         Me.ExitButton.TabIndex = 3
         Me.ExitButton.Text = "Exit"
-        Me.ToolTip1.SetToolTip(Me.ExitButton, "Exits the program")
+        Me.ToolTip.SetToolTip(Me.ExitButton, "Exits the program")
         Me.ExitButton.UseVisualStyleBackColor = True
         '
         'MenuStrip1
@@ -158,13 +159,13 @@ Partial Class Form1
         '
         Me.ContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileContextMenuItem, Me.EditContextMenuItem, Me.HelpContextMenuItem})
         Me.ContextMenuStrip.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip.Size = New System.Drawing.Size(181, 92)
+        Me.ContextMenuStrip.Size = New System.Drawing.Size(100, 70)
         '
         'FileContextMenuItem
         '
         Me.FileContextMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExitContextMenuItem})
         Me.FileContextMenuItem.Name = "FileContextMenuItem"
-        Me.FileContextMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.FileContextMenuItem.Size = New System.Drawing.Size(99, 22)
         Me.FileContextMenuItem.Text = "File"
         '
         'ExitContextMenuItem
@@ -177,7 +178,7 @@ Partial Class Form1
         '
         Me.EditContextMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectContextMenuItem, Me.DrawContextMenuItem, Me.ClearContextMenuItem})
         Me.EditContextMenuItem.Name = "EditContextMenuItem"
-        Me.EditContextMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.EditContextMenuItem.Size = New System.Drawing.Size(99, 22)
         Me.EditContextMenuItem.Text = "Edit"
         '
         'SelectContextMenuItem
@@ -202,7 +203,7 @@ Partial Class Form1
         '
         Me.HelpContextMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AboutContextMenuItem})
         Me.HelpContextMenuItem.Name = "HelpContextMenuItem"
-        Me.HelpContextMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.HelpContextMenuItem.Size = New System.Drawing.Size(99, 22)
         Me.HelpContextMenuItem.Text = "Help"
         '
         'AboutContextMenuItem
@@ -214,12 +215,13 @@ Partial Class Form1
         'DrawingPictureBox
         '
         Me.DrawingPictureBox.BackColor = System.Drawing.Color.Beige
+        Me.DrawingPictureBox.Cursor = System.Windows.Forms.Cursors.Cross
         Me.DrawingPictureBox.Location = New System.Drawing.Point(12, 27)
         Me.DrawingPictureBox.Name = "DrawingPictureBox"
         Me.DrawingPictureBox.Size = New System.Drawing.Size(776, 382)
         Me.DrawingPictureBox.TabIndex = 5
         Me.DrawingPictureBox.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.DrawingPictureBox, "Draw within this space")
+        Me.ToolTip.SetToolTip(Me.DrawingPictureBox, "Draw within this space")
         '
         'Form1
         '
@@ -268,6 +270,7 @@ Partial Class Form1
     Friend WithEvents HelpContextMenuItem As ToolStripMenuItem
     Friend WithEvents AboutContextMenuItem As ToolStripMenuItem
     Friend WithEvents ExitContextMenuItem As ToolStripMenuItem
-    Friend WithEvents ToolTip1 As ToolTip
+    Friend WithEvents ToolTip As ToolTip
     Friend WithEvents DrawingPictureBox As PictureBox
+    Friend WithEvents PICSerialPort As IO.Ports.SerialPort
 End Class

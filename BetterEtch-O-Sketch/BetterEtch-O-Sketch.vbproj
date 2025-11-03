@@ -103,6 +103,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AboutForm.resx">
+      <DependentUpon>AboutForm.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Etch-O-Sketch.resx">
       <DependentUpon>Etch-O-Sketch.vb</DependentUpon>
     </EmbeddedResource>

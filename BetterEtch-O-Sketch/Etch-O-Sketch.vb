@@ -2,6 +2,7 @@
 'RCET 3371
 'Fall 2025
 'Better Etch-O-Sketch
+'https://github.com/rc-earnest/BetterEtch-O-Sketch.git
 Option Strict On
 Option Explicit On
 Option Compare Text
