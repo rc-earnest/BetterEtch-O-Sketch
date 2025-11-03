@@ -243,14 +243,17 @@ Public Class Form1
 
     ' Handlers to close the application.
     Private Sub ExitMenuStripItem_Click(sender As Object, e As EventArgs) Handles ExitMenuStripItem.Click
+        PICSerialPort.Close()
         Me.Close()
     End Sub
 
     Private Sub ExitButton_Click(sender As Object, e As EventArgs) Handles ExitButton.Click
+        PICSerialPort.Close()
         Me.Close()
     End Sub
 
     Private Sub ExitContextMenuItem_Click(sender As Object, e As EventArgs) Handles ExitContextMenuItem.Click
+        PICSerialPort.Close()
         Me.Close()
     End Sub
 
@@ -391,6 +394,7 @@ Public Class Form1
     Private Sub DrawingRadioButton_CheckedChanged(sender As Object, e As EventArgs) Handles DrawingRadioButton.CheckedChanged
         SendTimer.Enabled = False
         _isPICMode = False
+        PICSerialPort.Close()
     End Sub
 
     ' Timer tick handler that polls or requests coordinates from the PIC and draws lines
